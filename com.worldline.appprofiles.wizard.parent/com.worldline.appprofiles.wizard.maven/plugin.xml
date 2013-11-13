@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension
+         point="org.eclipse.m2e.core.indexes">
+      <index
+            indexId="proxiedRepositories"
+            isShort="false"
+            repositoryUrl="http://repository.atosworldline.com/maven2">
+      </index>
+      </extension>
+</plugin>

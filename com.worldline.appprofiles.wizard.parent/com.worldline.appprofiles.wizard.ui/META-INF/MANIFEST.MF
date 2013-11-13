@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Application Profiles Wizard User Interface
+Bundle-SymbolicName: com.worldline.appprofiles.wizard.ui;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Activator: com.worldline.appprofiles.wizard.ui.Activator
+Bundle-Vendor: Atos.net
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ net.atos.xa.common.resources,
+ com.worldline.appprofiles.wizard.maven,
+ org.eclipse.emf.ecore
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.worldline.appprofiles.wizard.ui,
+ com.worldline.appprofiles.wizard.ui.model,
+ com.worldline.appprofiles.wizard.ui.model.facade,
+ com.worldline.appprofiles.wizard.ui.model.loader,
+ com.worldline.appprofiles.wizard.ui.project,
+ com.worldline.appprofiles.wizard.ui.project.pages,
+ com.worldline.appprofiles.wizard.ui.project.pages.tools

@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>net.atos.xa</groupId>
+		<artifactId>net.atos.xa.corporate</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
+	
+	<groupId>com.worldline.appprofiles.wizard</groupId>
+	<artifactId>com.worldline.appprofiles.wizard.parent</artifactId>
+	<version>1.2.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>com.worldline.appprofiles.wizard.maven</module>
+		<module>com.worldline.appprofiles.wizard.tests</module>
+		<module>com.worldline.appprofiles.wizard.ui</module>
+		<module>com.worldline.appprofiles.wizard.repository</module>
+		<module>com.worldline.appprofiles.wizard.feature</module>
+	</modules>
+	
+</project>

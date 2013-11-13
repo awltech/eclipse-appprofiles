@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension-point id="profiles" name="profiles" schema="schema/profiles.exsd"/>
+<extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            parentCategory="org.eclipse.ui.Examples"
+            id="XASampleWizardsCategory"
+            name="XA"/>
+      <wizard
+            category="org.eclipse.ui.Examples/XASampleWizardsCategory"
+            class="com.worldline.appprofiles.wizard.ui.project.SampleApplicationWizard"
+            icon="icons/mvn_wiz_icon.gif"
+            id="XACommonMavenSampleProjectWizard"
+            name="XA Sample Application"
+            project="true">
+      </wizard>
+   </extension>
+   <extension point="org.eclipse.ui.actionSets">
+	<actionSet
+		id="net.atos.xa.application.wizard.actionset"
+		label="Create XA Application"
+		visible="true">
+		<action
+        class="com.worldline.appprofiles.wizard.ui.project.RunApplicationWizardAction"
+        icon="icons/mvn_wiz_icon.gif"
+        id="net.atos.xa.common.maven.wizard.actionset.action"
+        label="Create XA Application"
+        toolbarPath="org.eclipse.jdt.ui.JavaElementCreationActionSet/JavaWizards"
+        tooltip="Create XA Application"> 
+		</action> 
+	</actionSet> 
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="XAWizardsCategory"
+            name="XA"/>
+      <wizard
+            category="XAWizardsCategory"
+            class="com.worldline.appprofiles.wizard.ui.project.ApplicationWizard"
+            icon="icons/mvn_wiz_icon.gif"
+            id="XACommonMavenProjectWizard"
+            name="XA Application"
+            project="true">
+      </wizard>
+      </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <newWizardShortcut
+               id="XACommonMavenProjectWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.jst.j2ee.J2EEPerspective">
+         <newWizardShortcut
+               id="XACommonMavenProjectWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.wst.web.ui.webDevPerspective">
+         <newWizardShortcut
+               id="XACommonMavenProjectWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+</plugin>

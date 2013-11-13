@@ -1,0 +1,688 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.worldline.appprofiles.wizard.model" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="com.worldline.appprofiles.wizard.model" id="Profiles" name="Profiles"/>
+      </appinfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="profile"/>
+            <element ref="configuration"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="profile">
+      <annotation>
+         <documentation>
+            The Profile is the root element for the application description. It generally contains modules and references configuration.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="module" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="configurationReference" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID if the profile. It has to be unique for the whole eclipse instance
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="kind" use="default" value="Standard">
+            <annotation>
+               <documentation>
+                  Describes if this profile is a standard one or a sample applications. This is for filtering purpose, as sample applications should be part of different wizard.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Standard">
+                  </enumeration>
+                  <enumeration value="Sample">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the profile. It will be displayed in the wizard.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="documentationURL" type="string">
+            <annotation>
+               <documentation>
+                  Path to the documentation of the profile. In the wizard, the user will have the possibility to open it in Eclipse Web Browser
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="globalConfigurator" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IGlobalConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="module">
+      <annotation>
+         <documentation>
+            A module corresponds to a Project within the Application.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="1">
+            <element ref="module" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="requirements" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="incompatibilities" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="location"/>
+            <element ref="configurationReference" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of the module. Should be unique in the whole eclipse instance. Hence, it is recommended to use plugin id to identify a given module (e.g. net.atos.acme.myplugin.mymodule)
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the module, to be displayed in the wizard.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="mandatory" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  When a module is mandatory, the module will be installed when the application is created. On the other side, when it&apos;s not, the user will have the possibility, in the wizard, to deselect it, so it won&apos;t be created with the profile.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="prefix" type="string">
+            <annotation>
+               <documentation>
+                  the prefix is used to compute the module name, from the application name.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="suffix" type="string">
+            <annotation>
+               <documentation>
+                  the suffix is used to compute the module name, from the application name.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="packageSuffix" type="string">
+            <annotation>
+               <documentation>
+                  The package suffix corresponds to a chunk that is added to the default package, in the module, when the application is created. If there is no starting point, the process won&apos;t add it. So don&apos;t forget to specify it !
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="defaultSelected" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  Only used when module is not mandatory.
+If value is true, the project is selected by default, in the project&apos;s list.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="requirement">
+      <annotation>
+         <documentation>
+            A requirement is a link to an other module. When a module requires another one, this other one should be enabled too, when it is enabled
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="moduleId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of the module, the referencing module requires
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="dependency">
+      <annotation>
+         <documentation>
+            A dependency is a link to an other module. When a module depends on another one, this other one should be enabled too, when it is enabled
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="moduleId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of the module, the referencing module depends on
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="location">
+      <annotation>
+         <documentation>
+            Describes where the module is stored.
+Generally, this location item is subclassed to have more specific location description. E.g. Maven Location
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="mavenLocation"/>
+            <element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+         </choice>
+      </complexType>
+   </element>
+
+   <element name="requirements">
+      <annotation>
+         <documentation>
+            Objects that wraps a list of requirements
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="requirement" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="mavenLocation">
+      <annotation>
+         <documentation>
+            Maven Location.
+This element contains Maven information, because module is a maven archetype.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="groupId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  GroupId of the archetype to fetch
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="artifactId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ArtifactID of the archetype to fetch
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="version" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Version of the archetype to fetch
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="repository" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Repository of the archetype to fetch
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="incompatibilities">
+      <annotation>
+         <documentation>
+            Object that wraps a list of incompatibility items
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="incompatibility"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="incompatibility">
+      <annotation>
+         <documentation>
+            A requirement is a link to an other module. When a module forbids another one, this other one should not be enabled, when the initial one is.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="moduleId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of the module, the inital module forbids
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="configuration">
+      <annotation>
+         <documentation>
+            Configuration element. Such element contains configuration items, which will be applied on the application created
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice minOccurs="0" maxOccurs="unbounded">
+            <element ref="optionalConfigurationEntry"/>
+            <element ref="mandatoryConfigurationEntry"/>
+            <element ref="valueConfigurationEntry"/>
+            <element ref="selectionConfigurationEntry"/>
+         </choice>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the configuration
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="version" type="string">
+            <annotation>
+               <documentation>
+                  Version of the configuration
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Id of the configuration. Such id should be unique in the whole Eclipse instance. Hence, it is recommended to use the plugin id to prefix the id. E.g. net.atos.acme.myplugin.myconfiguration
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="mandatoryConfigurationEntry">
+      <annotation>
+         <documentation>
+            Configuration entry that will automatically be applied on application when created. The user won&apos;t have the possibility to act on it, even in the wizard.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="variable" type="string">
+            <annotation>
+               <documentation>
+                  Optional parameter, that can be used to identify this entry.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configurator" type="string">
+            <annotation>
+               <documentation>
+                  Implementation of the configuration entry.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="valueConfigurationEntry">
+      <annotation>
+         <documentation>
+            Configuration entry that will automatically be applied on application when created. Here, the wizard will let the user set a property, to be used when executing configurator
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="variable" type="string">
+            <annotation>
+               <documentation>
+                  Optional parameter, that can be used to identify this entry.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configurator" type="string">
+            <annotation>
+               <documentation>
+                  Configurator implementation
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IValueConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Message that will be displayed in the wizard, when prompting for the value
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="string">
+            <annotation>
+               <documentation>
+                  Default value, that will be filled in wizard
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="validator" type="string">
+            <annotation>
+               <documentation>
+                  Implementation of Value Validator.
+Such validator will be run against value, to ensure that it respects some constraints implemented in validator
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IValueValidator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="optionalConfigurationEntry">
+      <annotation>
+         <documentation>
+            Optional Configuration Entry.
+Such entry is optional, meaning that the user will have the possibility to disable its execution, from the wizard
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="variable" type="string">
+            <annotation>
+               <documentation>
+                  Optional parameter, that can be used to identify this entry.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configurator" type="string">
+            <annotation>
+               <documentation>
+                  Configurator implementation
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Message that will be displayed in the wizard, when prompting for the value
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="boolean">
+            <annotation>
+               <documentation>
+                  Default value, that will be filled in wizard
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="selectionConfigurationEntry">
+      <annotation>
+         <documentation>
+            Selection Configuration Entry.
+Such entry is optional, meaning that the user will have the possibility to run configuration with boolean depending on whether the user selected the option or not.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="variable" type="string">
+            <annotation>
+               <documentation>
+                  Optional parameter, that can be used to identify this entry.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configurator" type="string">
+            <annotation>
+               <documentation>
+                  Configurator implementation
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.ISelectionConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Message that will be displayed in the wizard, when prompting for the value
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="boolean">
+            <annotation>
+               <documentation>
+                  Default value, that will be filled in wizard
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="configurationReference">
+      <annotation>
+         <documentation>
+            Element that links a profile to configuration
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="configurationId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of the configuration, the profile is linked to
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="optionalEntriesCombination">
+      <annotation>
+         <documentation>
+            This object is used when a configuration should be executed when several Optional Configuration Entries should be selected
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="optionalEntryReference" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="variable" type="string">
+            <annotation>
+               <documentation>
+                  Optional parameter, that can be used to identify this entry.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configurator" type="string">
+            <annotation>
+               <documentation>
+                  Configurator instance
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IConfigurator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="optionalEntryReference">
+      <annotation>
+         <documentation>
+            Reference to the Optional Configuration Entry that should be involved in this combination
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="entryId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of the Optional Configuration Entry that is referenced. Please note that the configuration Entry should be in the same Configuration as the combination object.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="property">
+      <complexType>
+         <attribute name="key" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>
