@@ -17,11 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import feature="net.atos.xa.common" version="3.1.0" match="greaterOrEqual"/>
-      <import feature="net.atos.xa.support.tools" version="2.2.1.qualifier"/>
-   </requires>
-
    <plugin
          id="com.worldline.appprofiles.wizard.maven"
          download-size="0"

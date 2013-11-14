@@ -5,25 +5,25 @@
          point="com.worldline.appprofiles.wizard.ui.profiles">
       <profile
             documentationURL="http://www.google.com"
-            id="net.atos.xa.appprofiles.tests.webprofile"
+            id="com.worldline.appprofiles.tests.webprofile"
             kind="Standard"
             name="Web Profile">
          <module
-               id="net.atos.xa.appprofiles.tests.webmodule"
+               id="com.worldline.appprofiles.tests.webmodule"
                mandatory="true"
                name="Web Module"
                suffix="-web">
             <location>
                <mavenLocation
                      artifactId="designer-domain"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation>
             </location>
          </module>
          <module
-               id="net.atos.xa.appprofiles.tests.coremodule"
+               id="com.worldline.appprofiles.tests.coremodule"
                mandatory="false"
                name="Core Module"
                suffix="-core">
@@ -33,58 +33,58 @@
             <location>
                <mavenLocation
                      artifactId="designer-common"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation>
             </location>
          </module>
          <module
-               id="net.atos.xa.appprofiles.tests.totomodule"
+               id="com.worldline.appprofiles.tests.totomodule"
                mandatory="false"
                name="Toto Module"
                prefix="toto-"
                suffix="-toto">
             <requirements>
                <requirement
-                     moduleId="net.atos.xa.appprofiles.tests.coremodule">
+                     moduleId="com.worldline.appprofiles.tests.coremodule">
                </requirement>
             </requirements>
             <incompatibilities>
                <incompatibility
-                     moduleId="net.atos.xa.appprofiles.tests.tatamodule">
+                     moduleId="com.worldline.appprofiles.tests.tatamodule">
                </incompatibility>
             </incompatibilities>
             <location>
                <mavenLocation
                      artifactId="designer-common"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation>
             </location>
          </module>
          <module
-               id="net.atos.xa.appprofiles.tests.tatamodule"
+               id="com.worldline.appprofiles.tests.tatamodule"
                mandatory="false"
                name="Tata Module"
                prefix="tata-"
                suffix="-tata">
             <location>
                <mavenLocation
-                     artifactId="net.atos.xa.appprofiles.tests.mavenLocation1"
-                     groupId="net.atos.xa.appprofiles.tests.mavenLocation1"
-                     repository="net.atos.xa.appprofiles.tests.mavenLocation1"
-                     version="net.atos.xa.appprofiles.tests.mavenLocation1">
+                     artifactId="com.worldline.appprofiles.tests.mavenLocation1"
+                     groupId="com.worldline.appprofiles.tests.mavenLocation1"
+                     repository="com.worldline.appprofiles.tests.mavenLocation1"
+                     version="com.worldline.appprofiles.tests.mavenLocation1">
                </mavenLocation>
             </location>
          </module>
          <configurationReference
-               configurationId="net.atos.xa.appprofiles.tests.configuration.rm">
+               configurationId="com.worldline.appprofiles.tests.configuration.rm">
          </configurationReference>
       </profile>
       <configuration
-            id="net.atos.xa.appprofiles.tests.configuration.rm"
+            id="com.worldline.appprofiles.tests.configuration.rm"
             name="XA RM Configuration"
             version="1.0.0">
          <valueConfigurationEntry
@@ -125,7 +125,7 @@
       </configuration>
       <profile
             globalConfigurator="com.worldline.appprofiles.wizard.tests.CommonGlobalConfigurator"
-            id="net.atos.xa.appprofiles.tests.common"
+            id="com.worldline.appprofiles.tests.common"
             kind="Standard"
             name="Java Profile">
          <module
@@ -137,7 +137,7 @@
             <location>
                <mavenLocation
                      artifactId="designer-common"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation>
@@ -151,66 +151,66 @@
          <optionalConfigurationEntry
                configurator="com.worldline.appprofiles.wizard.tests.Configurator2"
                default="true"
-               id="net.atos.xa.appprofiles.wizard.tests.optionalConfigurationEntrydddd1"
+               id="com.worldline.appprofiles.wizard.tests.optionalConfigurationEntrydddd1"
                message="Apply Bidule for Core Module">
          </optionalConfigurationEntry>
       </configuration>
       <profile
-            id="net.atos.xa.appprofiles.wizard.tests.moduleconf1.profile"
+            id="com.worldline.appprofiles.wizard.tests.moduleconf1.profile"
             kind="Standard"
             name="Profile to test configuration on modules">
          <module
-               id="net.atos.xa.appprofiles.wizard.tests.moduleconf1.module1"
+               id="com.worldline.appprofiles.wizard.tests.moduleconf1.module1"
                mandatory="false"
                name="First Module"
                suffix="-first">
             <location>
                <mavenLocation
                      artifactId="designer-common"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation></location>
             <configurationReference
-                  configurationId="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf1">
+                  configurationId="com.worldline.appprofiles.wizard.tests.moduleconf1.conf1">
             </configurationReference>
          </module>
          <module
-               id="net.atos.xa.appprofiles.wizard.tests.moduleconf1.module2"
+               id="com.worldline.appprofiles.wizard.tests.moduleconf1.module2"
                mandatory="false"
                name="Second Module"
                suffix="-second">
             <location>
                <mavenLocation
                      artifactId="designer-common"
-                     groupId="net.atos.xa.archetypes"
+                     groupId="com.worldline.archetypes"
                      repository="http://repository.atosworldline.com/maven2/"
                      version="3.0.0">
                </mavenLocation></location>
             <configurationReference
-                  configurationId="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf2">
+                  configurationId="com.worldline.appprofiles.wizard.tests.moduleconf1.conf2">
             </configurationReference>
          </module>
       </profile>
       <configuration
-            id="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf1"
-            name="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf1"
+            id="com.worldline.appprofiles.wizard.tests.moduleconf1.conf1"
+            name="com.worldline.appprofiles.wizard.tests.moduleconf1.conf1"
             version="1.0.0">
          <optionalConfigurationEntry
                configurator="com.worldline.appprofiles.wizard.tests.ModuleConf1"
                default="false"
-               id="net.atos.xa.appprofiles.wizard.tests.optionalConfigurationEntry2"
+               id="com.worldline.appprofiles.wizard.tests.optionalConfigurationEntry2"
                message="Enable Configuration on First Module">
          </optionalConfigurationEntry>
       </configuration>
       <configuration
-            id="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf2"
-            name="net.atos.xa.appprofiles.wizard.tests.moduleconf1.conf2"
+            id="com.worldline.appprofiles.wizard.tests.moduleconf1.conf2"
+            name="com.worldline.appprofiles.wizard.tests.moduleconf1.conf2"
             version="1.0.0">
          <optionalConfigurationEntry
                configurator="com.worldline.appprofiles.wizard.tests.ModuleConf1"
                default="false"
-               id="net.atos.xa.appprofiles.wizard.tests.optionalConfigurationEntry32"
+               id="com.worldline.appprofiles.wizard.tests.optionalConfigurationEntry32"
                message="Enable Configuration on Secong Module">
          </optionalConfigurationEntry>
       </configuration>

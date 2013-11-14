@@ -12,7 +12,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2e.core.ui,
  org.eclipse.m2e.maven.runtime,
  org.eclipse.jdt.core,
- net.atos.xa.common.resources,
  org.eclipse.core.net
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

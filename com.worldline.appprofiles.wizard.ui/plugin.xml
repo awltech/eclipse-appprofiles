@@ -19,13 +19,13 @@
    </extension>
    <extension point="org.eclipse.ui.actionSets">
 	<actionSet
-		id="net.atos.xa.application.wizard.actionset"
+		id="com.worldline.application.wizard.actionset"
 		label="Create XA Application"
 		visible="true">
 		<action
         class="com.worldline.appprofiles.wizard.ui.project.RunApplicationWizardAction"
         icon="icons/mvn_wiz_icon.gif"
-        id="net.atos.xa.common.maven.wizard.actionset.action"
+        id="com.worldline.common.maven.wizard.actionset.action"
         label="Create XA Application"
         toolbarPath="org.eclipse.jdt.ui.JavaElementCreationActionSet/JavaWizards"
         tooltip="Create XA Application"> 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/net.atos.xa.appprofiles.wizard_1.2.0.qualifier.jar" id="net.atos.xa.appprofiles.wizard" version="1.2.0.qualifier">
-      <category name="XA_ApplicationProfiles"/>
+   <feature url="features/com.worldline.appprofiles.wizard_1.2.0.qualifier.jar" id="com.worldline.appprofiles.wizard" version="1.2.0.qualifier">
+      <category name="ApplicationProfiles"/>
    </feature>
-   <category-def name="XA_ApplicationProfiles" label="XA_ApplicationProfiles"/>
+   <category-def name="ApplicationProfiles" label="ApplicationProfiles"/>
 </site>

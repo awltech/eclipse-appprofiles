@@ -3,7 +3,6 @@ package com.worldline.appprofiles.wizard.ui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.atos.xa.common.resources.logging.XAConsoleManager;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -38,7 +37,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public Activator() {
 		logger.setLevel(Level.WARNING);
-		XAConsoleManager.getInstance().register(logger);
+		//XAConsoleManager.getInstance().register(logger);
 	}
 
 	/*

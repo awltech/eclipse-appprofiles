@@ -52,11 +52,7 @@ public class GenerateMavenGoal implements IMavenGoal {
 		this.properties = properties;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.atos.xa.common.maven.archetype.goals.IMavenGoal#executeGoal()
-	 */
+	
 	public IStatus executeGoal() {
 		return MavenManager.getInstance().getEclipseMaven().executeGoal(
 				this.baseDir,
