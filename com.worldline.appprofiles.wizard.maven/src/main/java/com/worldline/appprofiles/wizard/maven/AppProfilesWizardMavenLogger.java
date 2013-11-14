@@ -2,6 +2,8 @@ package com.worldline.appprofiles.wizard.maven;
 
 import java.util.logging.Logger;
 
+import com.worldline.appprofiles.wirzard.commons.logging.AppProfilesConsoleManager;
+
 
 public class AppProfilesWizardMavenLogger {
 
@@ -9,7 +11,7 @@ public class AppProfilesWizardMavenLogger {
 
 	static {
 		// TODO Implement here initialization of the logger.
-		//XAConsoleManager.getInstance().register(logger);
+		AppProfilesConsoleManager.getInstance().register(logger);
 	}
 
 }

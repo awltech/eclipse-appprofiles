@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Action available in a Toolbar Action set, which role is to launch the XA
+ * Action available in a Toolbar Action set, which role is to launch the
  * Common Maven Project Creation Action
  * 
  * @author Atos Worldline

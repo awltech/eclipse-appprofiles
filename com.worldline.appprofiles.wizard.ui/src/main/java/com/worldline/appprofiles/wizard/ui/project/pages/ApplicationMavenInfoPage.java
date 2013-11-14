@@ -64,6 +64,10 @@ public class ApplicationMavenInfoPage extends ValidatingApplicationWizardPage {
 	private String offlineUpdateKey = Activator.PLUGIN_ID + ".offlineUpdate";
 	
 	private String updateSnapshotsKey = Activator.PLUGIN_ID + ".showUpdateSnapshots";
+	
+	private String documentationButtonKey = Activator.PLUGIN_ID + ".showDocumentationButton";
+	
+	private boolean documentationButtonValue;
 
 	private Button offlineUpdate;
 
@@ -76,8 +80,10 @@ public class ApplicationMavenInfoPage extends ValidatingApplicationWizardPage {
 		setDescription(ApplicationMavenInfoPageMessages.PAGE_DESC.value());
 		setPageComplete(false);
 		showDocValue = Activator.getDefault().getPreferenceStore().getBoolean(documentationKey);
-		offlineUpdateValue = Activator.getDefault().getPreferenceStore().getBoolean(documentationKey);
-		updateSnapshotsValue = Activator.getDefault().getPreferenceStore().getBoolean(documentationKey);
+		offlineUpdateValue = Activator.getDefault().getPreferenceStore().getBoolean(offlineUpdateKey);
+		updateSnapshotsValue = Activator.getDefault().getPreferenceStore().getBoolean(updateSnapshotsKey);
+		
+		
 	}
 
 	public void createControl(Composite root) {
@@ -152,10 +158,11 @@ public class ApplicationMavenInfoPage extends ValidatingApplicationWizardPage {
 		descriptionText = new Text(group, SWT.BORDER | SWT.MULTI);
 		descriptionText.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		descriptionText.addModifyListener(modifyingListener);
-		
+		documentationButtonValue = Activator.getDefault().getPreferenceStore().getBoolean(documentationButtonKey);
 		showDoc = new Button(parent, SWT.CHECK);
 		showDoc.setText(ApplicationMavenInfoPageMessages.PAGE_LABEL_OPENDOC.value());
 		showDoc.setSelection(showDocValue);
+		showDoc.setEnabled(documentationButtonValue);
 		showDoc.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

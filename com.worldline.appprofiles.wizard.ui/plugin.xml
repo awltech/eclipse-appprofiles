@@ -6,43 +6,43 @@
          point="org.eclipse.ui.newWizards">
       <category
             parentCategory="org.eclipse.ui.Examples"
-            id="XASampleWizardsCategory"
-            name="XA"/>
+            id="AppProfilesSampleWizardsCategory"
+            name="AppProfiles"/>
       <wizard
-            category="org.eclipse.ui.Examples/XASampleWizardsCategory"
+            category="org.eclipse.ui.Examples/AppProfilesSampleWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.SampleApplicationWizard"
             icon="icons/mvn_wiz_icon.gif"
-            id="XACommonMavenSampleProjectWizard"
-            name="XA Sample Application"
+            id="AppProfilesCommonMavenSampleProjectWizard"
+            name="AppProfiles Sample Application"
             project="true">
       </wizard>
    </extension>
    <extension point="org.eclipse.ui.actionSets">
 	<actionSet
 		id="com.worldline.application.wizard.actionset"
-		label="Create XA Application"
+		label="Create Application"
 		visible="true">
 		<action
         class="com.worldline.appprofiles.wizard.ui.project.RunApplicationWizardAction"
         icon="icons/mvn_wiz_icon.gif"
         id="com.worldline.common.maven.wizard.actionset.action"
-        label="Create XA Application"
+        label="Create Application"
         toolbarPath="org.eclipse.jdt.ui.JavaElementCreationActionSet/JavaWizards"
-        tooltip="Create XA Application"> 
+        tooltip="Create Application"> 
 		</action> 
 	</actionSet> 
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="XAWizardsCategory"
-            name="XA"/>
+            id="AppProfilesWizardsCategory"
+            name="AppProfiles"/>
       <wizard
-            category="XAWizardsCategory"
+            category="AppProfilesWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.ApplicationWizard"
             icon="icons/mvn_wiz_icon.gif"
-            id="XACommonMavenProjectWizard"
-            name="XA Application"
+            id="AppProfilesCommonMavenProjectWizard"
+            name="AppProfiles Application"
             project="true">
       </wizard>
       </extension>
@@ -51,19 +51,19 @@
       <perspectiveExtension
             targetID="org.eclipse.jdt.ui.JavaPerspective">
          <newWizardShortcut
-               id="XACommonMavenProjectWizard">
+               id="AppProfilesCommonMavenProjectWizard">
          </newWizardShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.jst.j2ee.J2EEPerspective">
          <newWizardShortcut
-               id="XACommonMavenProjectWizard">
+               id="AppProfilesCommonMavenProjectWizard">
          </newWizardShortcut>
       </perspectiveExtension>
       <perspectiveExtension
             targetID="org.eclipse.wst.web.ui.webDevPerspective">
          <newWizardShortcut
-               id="XACommonMavenProjectWizard">
+               id="AppProfilesCommonMavenProjectWizard">
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>

@@ -69,7 +69,9 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 
 	private String applicationKind;
 
-	private static final String XA_SITE = "http://xa.atosworldline.com/";
+	private static final String SITE = "";
+	
+	private String documentationButtonKey = Activator.PLUGIN_ID + ".showDocumentationButton";
 
 	public ApplicationWizard() {
 		this(new ApplicationWizardOutput(), "standard");
@@ -104,7 +106,12 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 		IWizardPage archetypePage = new ApplicationChooseProfilePage(applicationKind, applicationWizardOutput);
 		IWizardPage archetypeConfigPage = new ApplicationConfigureProfilePage(applicationWizardOutput);
 		IWizardPage archetypeInfoPage = new ApplicationMavenInfoPage(applicationWizardOutput);
-
+		Activator.getDefault().getPreferenceStore().setValue(documentationButtonKey, true);
+		if(SITE == null || SITE.equals("")) {
+			Activator.getDefault().getPreferenceStore().setValue(documentationButtonKey, false);	
+		}
+		
+		
 		this.addPage(locationPage);
 		this.addPage(archetypePage);
 		this.addPage(archetypeConfigPage);
@@ -125,8 +132,8 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 			try {
 				String url = applicationWizardOutput.getSelectedApplicationProfile().getDocumentationURL();
 				if ("".equals(url))
-					url = XA_SITE;
-				PlatformUI.getWorkbench().getBrowserSupport().createBrowser("XA").openURL(new URL(url));
+					url = SITE;
+				PlatformUI.getWorkbench().getBrowserSupport().createBrowser("AppProfiles").openURL(new URL(url));
 			} catch (Exception e) {
 				ILog log = Activator.getDefault().getLog();
 				log.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
