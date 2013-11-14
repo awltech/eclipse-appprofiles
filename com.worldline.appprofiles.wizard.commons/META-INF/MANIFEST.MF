@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Commons
-Bundle-SymbolicName: com.worldline.appprofiles.wirzard.commons
+Bundle-SymbolicName: com.worldline.appprofiles.wizard.commons
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: com.worldline.appprofiles.wirzard.commons.Activator
 Bundle-Vendor: WORLDLINE
