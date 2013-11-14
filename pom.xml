@@ -110,6 +110,20 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>	
+	</build>
+	
+	<repositories>
+		<repository>
+			<id>eclipse-platform</id>
+			<layout>p2</layout>
+			<url>${eclipse-site}</url>
+		</repository>
+		<repository>
+			<id>Kepler-epository</id>
+			<name>Kepler repository</name>
+			<layout>p2</layout>
+			<url> http://download.eclipse.org/releases/kepler/</url>
+		</repository>
+	</repositories>	
 	
 </project>
