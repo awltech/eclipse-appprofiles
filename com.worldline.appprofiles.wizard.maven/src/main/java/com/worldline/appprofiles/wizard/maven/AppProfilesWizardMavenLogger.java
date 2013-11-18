@@ -2,7 +2,7 @@ package com.worldline.appprofiles.wizard.maven;
 
 import java.util.logging.Logger;
 
-import com.worldline.appprofiles.wirzard.commons.logging.AppProfilesConsoleManager;
+import com.worldline.appprofiles.wizard.commons.logging.AppProfilesConsoleManager;
 
 
 public class AppProfilesWizardMavenLogger {

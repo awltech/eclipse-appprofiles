@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 
 
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -14,7 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.worldline.appprofiles.wirzard.commons.logging.AppProfilesConsoleManager;
+import com.worldline.appprofiles.wizard.commons.logging.AppProfilesConsoleManager;
 
 /**
  * The activator class controls the plug-in life cycle

@@ -1,4 +1,4 @@
-package com.worldline.appprofiles.wirzard.commons.logging;
+package com.worldline.appprofiles.wizard.commons.logging;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

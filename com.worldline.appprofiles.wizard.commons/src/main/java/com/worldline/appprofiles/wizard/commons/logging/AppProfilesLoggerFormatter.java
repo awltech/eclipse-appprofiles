@@ -1,4 +1,4 @@
-package com.worldline.appprofiles.wirzard.commons.logging;
+package com.worldline.appprofiles.wizard.commons.logging;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
