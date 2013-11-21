@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.core.net,
  com.worldline.appprofiles.wizard.commons;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: com.worldline.appprofiles.wizard.maven,
  com.worldline.appprofiles.wizard.maven.archetype,
