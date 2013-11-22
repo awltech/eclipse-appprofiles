@@ -7,11 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.worldline.appprofiles.wizard.maven.Maven2ProjectBuilder;
-import com.worldline.appprofiles.wizard.maven.Maven2ProjectCreator;
-import com.worldline.appprofiles.wizard.maven.archetype.Archetype;
-import com.worldline.appprofiles.wizard.maven.archetype.ArchetypeApplication;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
@@ -24,6 +19,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.SWT;
 
+import com.worldline.appprofiles.wizard.maven.Maven2ProjectBuilder;
+import com.worldline.appprofiles.wizard.maven.Maven2ProjectCreator;
+import com.worldline.appprofiles.wizard.maven.archetype.Archetype;
+import com.worldline.appprofiles.wizard.maven.archetype.ArchetypeApplication;
 import com.worldline.appprofiles.wizard.ui.Activator;
 import com.worldline.appprofiles.wizard.ui.ProcessMessages;
 import com.worldline.appprofiles.wizard.ui.model.AbstractConfigurationEntry;
@@ -42,6 +41,7 @@ import com.worldline.appprofiles.wizard.ui.model.facade.IConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.IGlobalConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.ISelectionConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.IValueConfigurator;
+import com.worldline.appprofiles.wizard.ui.model.loaders.ApplicationListenersLoader;
 
 public class ApplicationCreationJob extends WorkspaceJob {
 
@@ -143,9 +143,12 @@ public class ApplicationCreationJob extends WorkspaceJob {
 		// ********** Execute the mvn archetype command to materialize all the
 		// archetypes ******:
 		maven2ProjectCreator.run(monitor);
-		boolean offlineUpdate = Boolean.parseBoolean(applicationWizardOutput.getProperty(MavenModuleConstants.UPDATE_OFFLINE));
-		boolean forceSnapshots = Boolean.parseBoolean(applicationWizardOutput.getProperty(MavenModuleConstants.UPDATE_FORCE_SNAPSHOTS));
-		new Maven2ProjectBuilder(offlineUpdate, forceSnapshots).scheduleProjectsBuild(this, maven2ProjectCreator.getCreatedProjects());
+		boolean offlineUpdate = Boolean.parseBoolean(applicationWizardOutput
+				.getProperty(MavenModuleConstants.UPDATE_OFFLINE));
+		boolean forceSnapshots = Boolean.parseBoolean(applicationWizardOutput
+				.getProperty(MavenModuleConstants.UPDATE_FORCE_SNAPSHOTS));
+		new Maven2ProjectBuilder(offlineUpdate, forceSnapshots).scheduleProjectsBuild(this,
+				maven2ProjectCreator.getCreatedProjects());
 		monitor.subTask(ApplicationCreationJobMessages.SUBTASK2_NAME.value());
 		MultiStatus configurationStatus = new MultiStatus(Activator.PLUGIN_ID, SWT.OK,
 				ApplicationCreationJobMessages.CONFIG_APPLICATION_STATUS_MESSAGE.value(), null);
@@ -186,6 +189,7 @@ public class ApplicationCreationJob extends WorkspaceJob {
 		}
 
 		for (ApplicationModule module : modulesToConfigure) {
+			Map<String, String> moduleProperties = loadProperties(module);
 			for (ApplicationConfiguration configuration : module.getConfigurations()) {
 				for (IProject project : maven2ProjectCreator.getCreatedProjectFor(archetypeApplications.get(module))) {
 					if (project != null) {
@@ -194,8 +198,7 @@ public class ApplicationCreationJob extends WorkspaceJob {
 						// behind
 						// selected module
 						for (AbstractConfigurationEntry configurationEntry : configuration.getConfigurationEntries()) {
-							IStatus status = runConfiguration(configurationEntry, project, monitor,
-									loadProperties(module));
+							IStatus status = runConfiguration(configurationEntry, project, monitor, moduleProperties);
 							if (status != null)
 								configurationStatus.add(status);
 							if (monitor.isCanceled())
@@ -206,24 +209,48 @@ public class ApplicationCreationJob extends WorkspaceJob {
 						// selected
 						// module
 						for (ChoiceEntriesCombination combination : configuration.getOptionalEntriesCombinations()) {
-							IStatus status = runCombination(combination, project, monitor, loadProperties(module));
+							IStatus status = runCombination(combination, project, monitor, moduleProperties);
 							if (status != null)
 								configurationStatus.add(status);
 							if (monitor.isCanceled())
 								return Status.CANCEL_STATUS;
+						}
+
+						// Run the listeners of the corresponding module.
+						for (IConfigurator moduleListener : ApplicationListenersLoader.getInstance()
+								.getModuleListeners(module.getId())) {
+							moduleListener.configure(project, monitor, moduleProperties);
 						}
 					}
 				}
 			}
 		}
 
+		Map<String, String> loadedProperties = loadProperties(applicationWizardOutput);
+
 		// Execution of global configurator, if specified.
 		IGlobalConfigurator globalConfigurator = applicationWizardOutput.getSelectedApplicationProfile()
 				.getGlobalConfigurator();
 		if (globalConfigurator != null) {
-			IStatus status = globalConfigurator.configure(monitor, loadProperties(applicationWizardOutput));
-			if (status != null)
-				configurationStatus.add(status);
+			try {
+				IStatus status = globalConfigurator.configure(monitor, loadedProperties);
+				if (status != null)
+					configurationStatus.add(status);
+			} catch (Exception e) {
+				configurationStatus.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Exception caught !", e));
+			}
+		}
+
+		// Execution of the profile listeners
+		for (IGlobalConfigurator profileListeners : ApplicationListenersLoader.getInstance().getProfileListeners(
+				applicationWizardOutput.getSelectedApplicationProfile().getId())) {
+			try {
+				IStatus status = profileListeners.configure(monitor, loadedProperties);
+				if (status != null)
+					configurationStatus.add(status);
+			} catch (Exception e) {
+				configurationStatus.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Exception caught !", e));
+			}
 		}
 
 		monitor.worked(1);

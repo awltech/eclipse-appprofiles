@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import com.worldline.appprofiles.wizard.ui.model.ApplicationProfile;
-import com.worldline.appprofiles.wizard.ui.model.loader.ApplicationProfilesLoader;
+import com.worldline.appprofiles.wizard.ui.model.loaders.ApplicationProfilesLoader;
 
 /**
  * Implementation of Content Provider for wizard combo that displays profiles.

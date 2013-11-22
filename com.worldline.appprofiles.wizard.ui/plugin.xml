@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 <extension-point id="profiles" name="profiles" schema="schema/profiles.exsd"/>
+<extension-point id="profileListeners" name="profileListeners" schema="schema/profileListeners.exsd"/>
 <extension
          point="org.eclipse.ui.newWizards">
       <category
