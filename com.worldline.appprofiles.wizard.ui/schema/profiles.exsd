@@ -20,6 +20,7 @@
          <sequence minOccurs="0" maxOccurs="unbounded">
             <element ref="profile"/>
             <element ref="configuration"/>
+            <element ref="profileExtension"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -62,7 +63,7 @@
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  ID if the profile. It has to be unique for the whole eclipse instance
+                  ID of the profile. It has to be unique for the whole eclipse instance
                </documentation>
                <appinfo>
                   <meta.attribute translatable="true"/>
@@ -135,7 +136,7 @@
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Id of the module. Should be unique in the whole eclipse instance. Hence, it is recommended to use plugin id to identify a given module 
+                  Id of the module. Should be unique in the whole eclipse instance. Hence, it is recommended to use plugin id to identify a given module
                </documentation>
                <appinfo>
                   <meta.attribute translatable="true"/>
@@ -358,7 +359,7 @@ This element contains Maven information, because module is a maven archetype.
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Id of the configuration. Such id should be unique in the whole Eclipse instance. Hence, it is recommended to use the plugin id to prefix the id. 
+                  Id of the configuration. Such id should be unique in the whole Eclipse instance. Hence, it is recommended to use the plugin id to prefix the id.
                </documentation>
             </annotation>
          </attribute>
@@ -643,6 +644,31 @@ Such entry is optional, meaning that the user will have the possibility to run c
                <documentation>
                   
                </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="profileExtension">
+      <complexType>
+         <sequence>
+            <element ref="configurationReference" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="profileID" type="string" use="required">
+            <annotation>
+               <documentation>
+                  ID of an existing profile
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="globalConfigurator" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.worldline.appprofiles.wizard.ui.model.facade.IGlobalConfigurator"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>

@@ -115,6 +115,8 @@ public class ApplicationProfilesLoader {
 
 	private static final String PROFILES = "profiles";
 
+	private static final String PROFILE_ID = "profileID";
+
 	// End of the keywords defined in Extension Point
 
 	/**
@@ -167,8 +169,7 @@ public class ApplicationProfilesLoader {
 	 */
 	private ApplicationProfilesLoader() {
 		Activator.logger.info(ProcessMessages.LOAD_PROCESS_STARTED.value());
-		IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(Activator.PLUGIN_ID,
-				PROFILES);
+		IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(Activator.PLUGIN_ID, PROFILES);
 		// Read Profiles & extensions separately
 		for (IExtension extension : extensionPoint.getExtensions()) {
 			for (IConfigurationElement configurationElement : extension.getConfigurationElements()) {
@@ -183,8 +184,7 @@ public class ApplicationProfilesLoader {
 						e.printStackTrace();
 					} catch (BundleNotFoundException e) {
 						Activator.logger.log(Level.SEVERE, e.getMessage(), e);
-						Activator.getDefault().getLog()
-								.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+						Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 					}
 			}
 		}
@@ -197,8 +197,7 @@ public class ApplicationProfilesLoader {
 						e.printStackTrace();
 					} catch (BundleNotFoundException e) {
 						Activator.logger.log(Level.SEVERE, e.getMessage(), e);
-						Activator.getDefault().getLog()
-								.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+						Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 					}
 				}
 			}
@@ -218,10 +217,8 @@ public class ApplicationProfilesLoader {
 					sourceModule.getIncompatibilities().add(destinationModule);
 					Activator.logger.info(ProcessMessages.INCOMPATIBILITY_REMATCHED.value(sourceId, destinationId));
 				} catch (ApplicationModuleNotFoundException e) {
-					Activator.logger.log(Level.SEVERE,
-							ProcessMessages.INCOMPATIBILITY_EXCEPTION.value(sourceId, destinationId), e);
-					Activator.getDefault().getLog()
-							.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+					Activator.logger.log(Level.SEVERE, ProcessMessages.INCOMPATIBILITY_EXCEPTION.value(sourceId, destinationId), e);
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 				}
 			}
 
@@ -242,10 +239,8 @@ public class ApplicationProfilesLoader {
 					sourceModule.getRequirements().add(destinationModule);
 					Activator.logger.info(ProcessMessages.REQUIREMENT_REMATCHED.value(sourceId, destinationId));
 				} catch (ApplicationModuleNotFoundException e) {
-					Activator.logger.log(Level.SEVERE,
-							ProcessMessages.REQUIREMENT_EXCEPTION.value(sourceId, destinationId), e);
-					Activator.getDefault().getLog()
-							.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+					Activator.logger.log(Level.SEVERE, ProcessMessages.REQUIREMENT_EXCEPTION.value(sourceId, destinationId), e);
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 				}
 			}
 		}
@@ -260,8 +255,7 @@ public class ApplicationProfilesLoader {
 	 * @throws BundleNotFoundException
 	 * @throws InvalidRegistryObjectException
 	 */
-	private void loadProfile(IConfigurationElement configurationElement) throws InvalidRegistryObjectException,
-			BundleNotFoundException {
+	private void loadProfile(IConfigurationElement configurationElement) throws InvalidRegistryObjectException, BundleNotFoundException {
 
 		try {
 			// Getting information from extension point
@@ -285,8 +279,7 @@ public class ApplicationProfilesLoader {
 					profile.getModules().add(module);
 				} catch (ApplicationConfigurationNotFoundException e) {
 					Activator.logger.severe(ProcessMessages.MODULE_EXCEPTION.value(profile.getId()));
-					Activator.getDefault().getLog()
-							.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 				}
 			}
 
@@ -295,23 +288,19 @@ public class ApplicationProfilesLoader {
 					loadConfigurationReferences(profile, childElement);
 				} catch (ApplicationConfigurationNotFoundException e) {
 					Activator.logger.severe(ProcessMessages.PROFILE_EXCEPTION.value(profileId));
-					Activator.getDefault().getLog()
-							.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+					Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 				}
 			}
 
-			String documentationURL = ExtensionPointHelper.optionalArgumentValue(configurationElement,
-					"documentationURL");
+			String documentationURL = ExtensionPointHelper.optionalArgumentValue(configurationElement, "documentationURL");
 			if (documentationURL != null) {
 				Activator.logger.info(ProcessMessages.PROFILE_DOCUMENTATION.value(documentationURL, profileId));
 				profile.setDocumentationURL(documentationURL);
 			}
 
-			IGlobalConfigurator globalConfigurator = ExtensionPointHelper.optionalExecutable(IGlobalConfigurator.class,
-					configurationElement, GLOBAL_CONFIGURATOR);
+			IGlobalConfigurator globalConfigurator = ExtensionPointHelper.optionalExecutable(IGlobalConfigurator.class, configurationElement, GLOBAL_CONFIGURATOR);
 			if (globalConfigurator != null) {
-				Activator.logger.info(ProcessMessages.GLOBAL_CONFIGURATOR.value(
-						globalConfigurator.getClass().getName(), profileId));
+				Activator.logger.info(ProcessMessages.GLOBAL_CONFIGURATOR.value(globalConfigurator.getClass().getName(), profileId));
 				profile.getGlobalConfigurators().add(globalConfigurator);
 			}
 
@@ -323,7 +312,29 @@ public class ApplicationProfilesLoader {
 	}
 
 	private void loadProfileExtension(IConfigurationElement configurationElement) throws BundleNotFoundException {
-		// TODO Auto-generated method stub
+		try {
+			String profileId = ExtensionPointHelper.mandatoryArgumentValue(configurationElement, PROFILE_ID);
+			for (ApplicationProfile profile : getApplicationProfiles()) {
+				if (profileId.equals(profile.getId())) {
+					for (IConfigurationElement childElement : configurationElement.getChildren(CONFIGURATION_REFERENCE)) {
+						try {
+							loadConfigurationReferences(profile, childElement);
+						} catch (ApplicationConfigurationNotFoundException e) {
+							Activator.logger.severe(ProcessMessages.PROFILE_EXCEPTION.value(profileId));
+							Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+						}
+					}
+					IGlobalConfigurator globalConfigurator = ExtensionPointHelper.optionalExecutable(IGlobalConfigurator.class, configurationElement, GLOBAL_CONFIGURATOR);
+					if (globalConfigurator != null) {
+						Activator.logger.info(ProcessMessages.GLOBAL_CONFIGURATOR.value(globalConfigurator.getClass().getName(), profileId));
+						profile.getGlobalConfigurators().add(globalConfigurator);
+					}
+				}
+			}
+		} catch (NullArgumentException nae) {
+			Activator.logger.severe(ProcessMessages.PROFILE_EXCEPTION2.value());
+			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, nae.getMessage(), nae));
+		}
 	}
 
 	/**
@@ -334,8 +345,7 @@ public class ApplicationProfilesLoader {
 	 * @param childElement
 	 * @throws ApplicationConfigurationNotFoundException
 	 */
-	private void loadConfigurationReferences(ApplicationProfile profile, IConfigurationElement childElement)
-			throws ApplicationConfigurationNotFoundException {
+	private void loadConfigurationReferences(ApplicationProfile profile, IConfigurationElement childElement) throws ApplicationConfigurationNotFoundException {
 		try {
 			String configurationId = ExtensionPointHelper.mandatoryArgumentValue(childElement, CONFIGURATION_ID);
 			ApplicationConfiguration configuration = this.applicationConfigurations.get(configurationId);
@@ -344,8 +354,7 @@ public class ApplicationProfilesLoader {
 				throw new ApplicationConfigurationNotFoundException(profile.getId(), configurationId);
 
 			profile.addConfiguration(configuration);
-			Activator.logger.info(ProcessMessages.CONF_REFERENCE_CREATED.value(configurationId, profile.getId(),
-					"Profile"));
+			Activator.logger.info(ProcessMessages.CONF_REFERENCE_CREATED.value(configurationId, profile.getId(), "Profile"));
 		} catch (NullArgumentException nae) {
 			Activator.logger.info(ProcessMessages.CONF_REFERENCE_EXCEPTION.value(profile.getId()));
 			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, nae.getMessage(), nae));
@@ -361,8 +370,7 @@ public class ApplicationProfilesLoader {
 	 * @param childElement
 	 * @throws ApplicationConfigurationNotFoundException
 	 */
-	private void loadConfigurationReferences(ApplicationModule module, IConfigurationElement childElement)
-			throws ApplicationConfigurationNotFoundException {
+	private void loadConfigurationReferences(ApplicationModule module, IConfigurationElement childElement) throws ApplicationConfigurationNotFoundException {
 		try {
 			String configurationId = ExtensionPointHelper.mandatoryArgumentValue(childElement, CONFIGURATION_ID);
 			ApplicationConfiguration configuration = this.applicationConfigurations.get(configurationId);
@@ -371,8 +379,7 @@ public class ApplicationProfilesLoader {
 				throw new ApplicationConfigurationNotFoundException(module.getId(), configurationId);
 
 			module.addConfiguration(configuration);
-			Activator.logger.info(ProcessMessages.CONF_REFERENCE_CREATED.value(configurationId, module.getId(),
-					"Module"));
+			Activator.logger.info(ProcessMessages.CONF_REFERENCE_CREATED.value(configurationId, module.getId(), "Module"));
 		} catch (NullArgumentException nae) {
 			Activator.logger.info(ProcessMessages.CONF_REFERENCE_EXCEPTION.value(module.getId()));
 			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, nae.getMessage(), nae));
@@ -389,13 +396,12 @@ public class ApplicationProfilesLoader {
 	 * @throws BundleNotFoundException
 	 * @throws InvalidRegistryObjectException
 	 */
-	private ApplicationModule loadModule(IConfigurationElement configurationElement) throws NullArgumentException,
-			ApplicationConfigurationNotFoundException, InvalidRegistryObjectException, BundleNotFoundException {
+	private ApplicationModule loadModule(IConfigurationElement configurationElement) throws NullArgumentException, ApplicationConfigurationNotFoundException,
+			InvalidRegistryObjectException, BundleNotFoundException {
 		// Getting information from extension point
 		String moduleId = ExtensionPointHelper.mandatoryArgumentValue(configurationElement, ID);
 		String moduleName = ExtensionPointHelper.mandatoryArgumentValue(configurationElement, NAME);
-		boolean moduleMandatory = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(configurationElement,
-				MANDATORY));
+		boolean moduleMandatory = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(configurationElement, MANDATORY));
 
 		Activator.logger.info(ProcessMessages.MODULE_CREATED.value(moduleId));
 		ModuleLocation location = null;
@@ -409,8 +415,7 @@ public class ApplicationProfilesLoader {
 
 		String defaultSelected = ExtensionPointHelper.optionalArgumentValue(configurationElement, "defaultSelected");
 
-		ApplicationModule module = new ApplicationModule(moduleId, moduleName, moduleMandatory, location,
-				Boolean.parseBoolean(defaultSelected));
+		ApplicationModule module = new ApplicationModule(moduleId, moduleName, moduleMandatory, location, Boolean.parseBoolean(defaultSelected));
 
 		Activator.logger.info(ProcessMessages.MODULE_CREATED2.value(moduleId));
 		this.modulesCache.put(moduleId, module);
@@ -462,8 +467,7 @@ public class ApplicationProfilesLoader {
 	 * @throws NullArgumentException
 	 * @throws BundleNotFoundException
 	 */
-	private ModuleLocation loadLocation(IConfigurationElement configurationElement) throws NullArgumentException,
-			BundleNotFoundException {
+	private ModuleLocation loadLocation(IConfigurationElement configurationElement) throws NullArgumentException, BundleNotFoundException {
 
 		ModuleLocation moduleLocation = null;
 		Map<String, String> moduleLocationProperties = new HashMap<String, String>();
@@ -482,8 +486,7 @@ public class ApplicationProfilesLoader {
 					String version = ExtensionPointHelper.mandatoryArgumentValue(childElement, VERSION);
 					String repository = ExtensionPointHelper.mandatoryArgumentValue(childElement, REPOSITORY);
 					Activator.logger.info(ProcessMessages.LOCATION_LOADED.value());
-					moduleLocation = new MavenRepositoryLocation(groupId, artifactId, this.extractVersion(version,
-							configurationElement), repository);
+					moduleLocation = new MavenRepositoryLocation(groupId, artifactId, this.extractVersion(version, configurationElement), repository);
 				}
 			}
 		}
@@ -505,8 +508,7 @@ public class ApplicationProfilesLoader {
 	 * @return
 	 * @throws BundleNotFoundException
 	 */
-	private String extractVersion(String version, IConfigurationElement configurationElement)
-			throws BundleNotFoundException {
+	private String extractVersion(String version, IConfigurationElement configurationElement) throws BundleNotFoundException {
 		if (PLUGINVERSION_VARIABLE.equals(version)) {
 			String contributorName = configurationElement.getContributor().getName();
 			Bundle contributorBundle = Platform.getBundle(contributorName);
@@ -515,8 +517,7 @@ public class ApplicationProfilesLoader {
 
 			Version bundleVersion = contributorBundle.getVersion();
 			String builtMavenVersion = this.buildMavenVersion(bundleVersion);
-			Activator.logger.info(ProcessMessages.VERSION_RESOLVED.value(contributorName, bundleVersion.toString(),
-					builtMavenVersion));
+			Activator.logger.info(ProcessMessages.VERSION_RESOLVED.value(contributorName, bundleVersion.toString(), builtMavenVersion));
 			return builtMavenVersion;
 		}
 		return version;
@@ -532,22 +533,18 @@ public class ApplicationProfilesLoader {
 
 		// Qualifier is null, we return the standard version
 		if (bundleVersion.getQualifier() == null)
-			return String.format("%d.%d.%d", bundleVersion.getMajor(), bundleVersion.getMinor(),
-					bundleVersion.getMicro());
+			return String.format("%d.%d.%d", bundleVersion.getMajor(), bundleVersion.getMinor(), bundleVersion.getMicro());
 
 		// Qualifier is qualifier. We are in dev, hence we use snapshot
 		if ("qualifier".equals(bundleVersion.getQualifier()))
-			return String.format("%d.%d.%d-SNAPSHOT", bundleVersion.getMajor(), bundleVersion.getMinor(),
-					bundleVersion.getMicro());
+			return String.format("%d.%d.%d-SNAPSHOT", bundleVersion.getMajor(), bundleVersion.getMinor(), bundleVersion.getMicro());
 
 		// The qualifier contains the snapshot keyword. We use snapshot
 		if (bundleVersion.getQualifier().toLowerCase().indexOf("snapshot") > -1)
-			return String.format("%d.%d.%d-SNAPSHOT", bundleVersion.getMajor(), bundleVersion.getMinor(),
-					bundleVersion.getMicro());
+			return String.format("%d.%d.%d-SNAPSHOT", bundleVersion.getMajor(), bundleVersion.getMinor(), bundleVersion.getMicro());
 
 		// Last case: final equivalent version
-		return String.format("%d.%d.%d-%s", bundleVersion.getMajor(), bundleVersion.getMinor(),
-				bundleVersion.getMicro(), bundleVersion.getQualifier());
+		return String.format("%d.%d.%d-%s", bundleVersion.getMajor(), bundleVersion.getMinor(), bundleVersion.getMicro(), bundleVersion.getQualifier());
 	}
 
 	/**
@@ -614,8 +611,7 @@ public class ApplicationProfilesLoader {
 			String configurationVersion = ExtensionPointHelper.mandatoryArgumentValue(configurationElement, VERSION);
 			String configurationId = ExtensionPointHelper.mandatoryArgumentValue(configurationElement, ID);
 
-			ApplicationConfiguration configuration = new ApplicationConfiguration(configurationId, configurationName,
-					configurationVersion);
+			ApplicationConfiguration configuration = new ApplicationConfiguration(configurationId, configurationName, configurationVersion);
 			Activator.logger.info(ProcessMessages.CONFIGURATION_CREATED.value(configurationId));
 			this.applicationConfigurations.put(configurationId, configuration);
 
@@ -623,57 +619,45 @@ public class ApplicationProfilesLoader {
 				if (OPTIONAL_CONFIGURATION_ENTRY.equals(childElement.getName())) {
 					String entryMessage = ExtensionPointHelper.mandatoryArgumentValue(childElement, MESSAGE);
 					String entryVariable = ExtensionPointHelper.optionalArgumentValue(childElement, VARIABLE);
-					boolean entryDefaultValue = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(
-							childElement, DEFAULT));
+					boolean entryDefaultValue = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(childElement, DEFAULT));
 					String entryId = ExtensionPointHelper.mandatoryArgumentValue(childElement, ID);
-					IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class,
-							childElement, CONFIGURATOR);
-					OptionalConfigurationEntry entry = new OptionalConfigurationEntry(entryId, entryMessage,
-							configurator, entryDefaultValue);
+					IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class, childElement, CONFIGURATOR);
+					OptionalConfigurationEntry entry = new OptionalConfigurationEntry(entryId, entryMessage, configurator, entryDefaultValue);
 					entry.setVariable(entryVariable);
 					configuration.addConfigurationEntry(entry);
-					Activator.logger.info(ProcessMessages.CHOICE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>"
-							: configurator.getClass().getSimpleName(), configurationId));
+					Activator.logger
+							.info(ProcessMessages.CHOICE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>" : configurator.getClass().getSimpleName(), configurationId));
 				} else if (SELECTION_CONFIGURATION_ENTRY.equals(childElement.getName())) {
 					String entryMessage = ExtensionPointHelper.mandatoryArgumentValue(childElement, MESSAGE);
 					String entryVariable = ExtensionPointHelper.optionalArgumentValue(childElement, VARIABLE);
-					boolean entryDefaultValue = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(
-							childElement, DEFAULT));
+					boolean entryDefaultValue = Boolean.parseBoolean(ExtensionPointHelper.optionalArgumentValue(childElement, DEFAULT));
 					String entryId = ExtensionPointHelper.mandatoryArgumentValue(childElement, ID);
-					ISelectionConfigurator configurator = ExtensionPointHelper.optionalExecutable(
-							ISelectionConfigurator.class, childElement, CONFIGURATOR);
-					SelectionConfigurationEntry entry = new SelectionConfigurationEntry(entryId, entryMessage,
-							configurator, entryDefaultValue);
+					ISelectionConfigurator configurator = ExtensionPointHelper.optionalExecutable(ISelectionConfigurator.class, childElement, CONFIGURATOR);
+					SelectionConfigurationEntry entry = new SelectionConfigurationEntry(entryId, entryMessage, configurator, entryDefaultValue);
 					entry.setVariable(entryVariable);
 					configuration.addConfigurationEntry(entry);
-					Activator.logger.info(ProcessMessages.CHOICE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>"
-							: configurator.getClass().getSimpleName(), configurationId));
+					Activator.logger
+							.info(ProcessMessages.CHOICE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>" : configurator.getClass().getSimpleName(), configurationId));
 				} else if (TEXT_CONFIGURATION_ENTRY.equals(childElement.getName())) {
 					String entryId = ExtensionPointHelper.mandatoryArgumentValue(childElement, ID);
 					String entryVariable = ExtensionPointHelper.optionalArgumentValue(childElement, VARIABLE);
 					String entryMessage = ExtensionPointHelper.mandatoryArgumentValue(childElement, MESSAGE);
 					String entryDefaultValue = ExtensionPointHelper.optionalArgumentValue(childElement, DEFAULT);
-					IValueConfigurator configurator = ExtensionPointHelper.optionalExecutable(IValueConfigurator.class,
-							childElement, CONFIGURATOR);
-					IValueValidator validator = ExtensionPointHelper.optionalExecutable(IValueValidator.class,
-							childElement, VALIDATOR);
-					ValueConfigurationEntry entry = new ValueConfigurationEntry(entryId, entryMessage, configurator,
-							entryDefaultValue, validator);
+					IValueConfigurator configurator = ExtensionPointHelper.optionalExecutable(IValueConfigurator.class, childElement, CONFIGURATOR);
+					IValueValidator validator = ExtensionPointHelper.optionalExecutable(IValueValidator.class, childElement, VALIDATOR);
+					ValueConfigurationEntry entry = new ValueConfigurationEntry(entryId, entryMessage, configurator, entryDefaultValue, validator);
 					entry.setVariable(entryVariable);
 					configuration.addConfigurationEntry(entry);
-					Activator.logger.info(ProcessMessages.VALUE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>"
-							: configurator.getClass().getSimpleName(), configurationId));
+					Activator.logger.info(ProcessMessages.VALUE_CONFENTRY_LOADED.value(configurator == null ? "<NONE>" : configurator.getClass().getSimpleName(), configurationId));
 				} else if (STATIC_CONFIGURATION_ENTRY.equals(childElement.getName())) {
 					String entryId = ExtensionPointHelper.mandatoryArgumentValue(childElement, ID);
 					String entryVariable = ExtensionPointHelper.optionalArgumentValue(childElement, VARIABLE);
-					IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class,
-							childElement, CONFIGURATOR);
+					IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class, childElement, CONFIGURATOR);
 					MandatoryConfigurationEntry entry = new MandatoryConfigurationEntry(entryId, configurator);
 					entry.setVariable(entryVariable);
 					configuration.addConfigurationEntry(entry);
-					Activator.logger
-							.info(ProcessMessages.MANDATORY_CONFENTRY_LOADED.value(configurator == null ? "<NONE>"
-									: configurator.getClass().getSimpleName(), configurationId));
+					Activator.logger.info(ProcessMessages.MANDATORY_CONFENTRY_LOADED.value(configurator == null ? "<NONE>" : configurator.getClass().getSimpleName(),
+							configurationId));
 				}
 			}
 
@@ -689,12 +673,11 @@ public class ApplicationProfilesLoader {
 
 	}
 
-	protected void loadOptionalConfigurationEntries(IConfigurationElement configurationElement,
-			ApplicationConfiguration configuration) throws NullArgumentException, OptionalEntryNotFoundException {
+	protected void loadOptionalConfigurationEntries(IConfigurationElement configurationElement, ApplicationConfiguration configuration) throws NullArgumentException,
+			OptionalEntryNotFoundException {
 		for (IConfigurationElement childElement : configurationElement.getChildren()) {
 			if ("optionalEntriesCombination".equals(childElement.getName())) {
-				IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class, childElement,
-						"configurator");
+				IConfigurator configurator = ExtensionPointHelper.optionalExecutable(IConfigurator.class, childElement, "configurator");
 				String entryVariable = ExtensionPointHelper.optionalArgumentValue(childElement, VARIABLE);
 				ChoiceEntriesCombination combination = new ChoiceEntriesCombination(configurator);
 				combination.setVariable(entryVariable);
@@ -702,15 +685,13 @@ public class ApplicationProfilesLoader {
 					String referenceId = ExtensionPointHelper.mandatoryArgumentValue(referenceElement, "entryId");
 					AbstractConfigurationEntry configurationEntry = configuration.getConfigurationEntry(referenceId);
 					if (configurationEntry instanceof OptionalConfigurationEntry) {
-						combination.getOptionalConfigurationEntries().add(
-								(OptionalConfigurationEntry) configurationEntry);
+						combination.getOptionalConfigurationEntries().add((OptionalConfigurationEntry) configurationEntry);
 					} else
 						throw new OptionalEntryNotFoundException(referenceId, configuration.getId());
 				}
 				configuration.getOptionalEntriesCombinations().add(combination);
-				Activator.logger.info(ProcessMessages.OPTIONAL_ENTRIES_COMBINATION_CREATED.value(combination
-						.getOptionalConfigurationEntries().size(), configurator == null ? "<NONE>" : configurator
-						.getClass().getSimpleName()));
+				Activator.logger.info(ProcessMessages.OPTIONAL_ENTRIES_COMBINATION_CREATED.value(combination.getOptionalConfigurationEntries().size(),
+						configurator == null ? "<NONE>" : configurator.getClass().getSimpleName()));
 			}
 		}
 	}
