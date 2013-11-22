@@ -135,7 +135,7 @@
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Id of the module. Should be unique in the whole eclipse instance. Hence, it is recommended to use plugin id to identify a given module (e.g. net.atos.acme.myplugin.mymodule)
+                  Id of the module. Should be unique in the whole eclipse instance. Hence, it is recommended to use plugin id to identify a given module 
                </documentation>
                <appinfo>
                   <meta.attribute translatable="true"/>
@@ -358,7 +358,7 @@ This element contains Maven information, because module is a maven archetype.
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Id of the configuration. Such id should be unique in the whole Eclipse instance. Hence, it is recommended to use the plugin id to prefix the id. E.g. net.atos.acme.myplugin.myconfiguration
+                  Id of the configuration. Such id should be unique in the whole Eclipse instance. Hence, it is recommended to use the plugin id to prefix the id. 
                </documentation>
             </annotation>
          </attribute>
