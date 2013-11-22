@@ -19,7 +19,7 @@ public class ApplicationProfile {
 	
 	private List<ApplicationConfiguration> configurations = new ArrayList<ApplicationConfiguration>();
 
-	private IGlobalConfigurator globalConfigurator;
+	private List<IGlobalConfigurator> globalConfigurators = new ArrayList<IGlobalConfigurator>();
 	
 	private String documentationURL = "";
 	
@@ -69,12 +69,8 @@ public class ApplicationProfile {
 		return this.documentationURL;
 	}
 	
-	public void setGlobalConfigurator(IGlobalConfigurator globalConfigurator) {
-		this.globalConfigurator = globalConfigurator;
-	}
-	
-	public IGlobalConfigurator getGlobalConfigurator() {
-		return globalConfigurator;
+	public List<IGlobalConfigurator> getGlobalConfigurators() {
+		return globalConfigurators;
 	}
 	
 	public String getDescription() {

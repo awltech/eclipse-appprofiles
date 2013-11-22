@@ -41,7 +41,6 @@ import com.worldline.appprofiles.wizard.ui.model.facade.IConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.IGlobalConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.ISelectionConfigurator;
 import com.worldline.appprofiles.wizard.ui.model.facade.IValueConfigurator;
-import com.worldline.appprofiles.wizard.ui.model.loaders.ApplicationListenersLoader;
 
 public class ApplicationCreationJob extends WorkspaceJob {
 
@@ -209,17 +208,16 @@ public class ApplicationCreationJob extends WorkspaceJob {
 						// selected
 						// module
 						for (ChoiceEntriesCombination combination : configuration.getOptionalEntriesCombinations()) {
-							IStatus status = runCombination(combination, project, monitor, moduleProperties);
-							if (status != null)
-								configurationStatus.add(status);
-							if (monitor.isCanceled())
-								return Status.CANCEL_STATUS;
-						}
-
-						// Run the listeners of the corresponding module.
-						for (IConfigurator moduleListener : ApplicationListenersLoader.getInstance()
-								.getModuleListeners(module.getId())) {
-							moduleListener.configure(project, monitor, moduleProperties);
+							try {
+								IStatus status = runCombination(combination, project, monitor, moduleProperties);
+								if (status != null)
+									configurationStatus.add(status);
+								if (monitor.isCanceled())
+									return Status.CANCEL_STATUS;
+							} catch (Exception e) {
+								configurationStatus.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+										"Exception caught !", e));
+							}
 						}
 					}
 				}
@@ -228,24 +226,11 @@ public class ApplicationCreationJob extends WorkspaceJob {
 
 		Map<String, String> loadedProperties = loadProperties(applicationWizardOutput);
 
-		// Execution of global configurator, if specified.
-		IGlobalConfigurator globalConfigurator = applicationWizardOutput.getSelectedApplicationProfile()
-				.getGlobalConfigurator();
-		if (globalConfigurator != null) {
+		// Execution of global configurators, if specified.
+		for (IGlobalConfigurator globalConfigurator : applicationWizardOutput.getSelectedApplicationProfile()
+				.getGlobalConfigurators()) {
 			try {
 				IStatus status = globalConfigurator.configure(monitor, loadedProperties);
-				if (status != null)
-					configurationStatus.add(status);
-			} catch (Exception e) {
-				configurationStatus.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Exception caught !", e));
-			}
-		}
-
-		// Execution of the profile listeners
-		for (IGlobalConfigurator profileListeners : ApplicationListenersLoader.getInstance().getProfileListeners(
-				applicationWizardOutput.getSelectedApplicationProfile().getId())) {
-			try {
-				IStatus status = profileListeners.configure(monitor, loadedProperties);
 				if (status != null)
 					configurationStatus.add(status);
 			} catch (Exception e) {

@@ -295,7 +295,7 @@ public class ApplicationProfilesLoader {
 			if (globalConfigurator != null) {
 				Activator.logger.info(ProcessMessages.GLOBAL_CONFIGURATOR.value(
 						globalConfigurator.getClass().getName(), profileId));
-				profile.setGlobalConfigurator(globalConfigurator);
+				profile.getGlobalConfigurators().add(globalConfigurator);
 			}
 
 		} catch (NullArgumentException nae) {
