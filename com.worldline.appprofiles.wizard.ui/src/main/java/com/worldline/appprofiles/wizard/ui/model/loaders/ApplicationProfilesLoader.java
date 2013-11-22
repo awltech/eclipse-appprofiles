@@ -109,6 +109,8 @@ public class ApplicationProfilesLoader {
 
 	private static final String PROFILE = "profile";
 
+	private static final String PROFILE_EXTENSION = "profileExtension";
+
 	private static final String CONFIGURATION = "configuration";
 
 	private static final String PROFILES = "profiles";
@@ -184,6 +186,21 @@ public class ApplicationProfilesLoader {
 						Activator.getDefault().getLog()
 								.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 					}
+			}
+		}
+		for (IExtension extension : extensionPoint.getExtensions()) {
+			for (IConfigurationElement configurationElement : extension.getConfigurationElements()) {
+				if (PROFILE_EXTENSION.equals(configurationElement.getName())) {
+					try {
+						this.loadProfileExtension(configurationElement);
+					} catch (InvalidRegistryObjectException e) {
+						e.printStackTrace();
+					} catch (BundleNotFoundException e) {
+						Activator.logger.log(Level.SEVERE, e.getMessage(), e);
+						Activator.getDefault().getLog()
+								.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+					}
+				}
 			}
 		}
 		// Match Incompatibilities
@@ -303,6 +320,10 @@ public class ApplicationProfilesLoader {
 			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, nae.getMessage(), nae));
 		}
 
+	}
+
+	private void loadProfileExtension(IConfigurationElement configurationElement) throws BundleNotFoundException {
+		// TODO Auto-generated method stub
 	}
 
 	/**
