@@ -11,7 +11,7 @@
       <wizard
             category="org.eclipse.ui.Examples/AppProfilesSampleWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.SampleApplicationWizard"
-            icon="icons/mvn_wiz_icon.gif"
+            icon="icons/newprf-wiz.gif"
             id="AppProfilesCommonMavenSampleProjectWizard"
             name="AppProfiles Sample Application"
             project="true">
@@ -24,7 +24,7 @@
 		visible="true">
 		<action
         class="com.worldline.appprofiles.wizard.ui.project.RunApplicationWizardAction"
-        icon="icons/mvn_wiz_icon.gif"
+        icon="icons/newprf-wiz.gif"
         id="com.worldline.common.maven.wizard.actionset.action"
         label="Create Application"
         toolbarPath="org.eclipse.jdt.ui.JavaElementCreationActionSet/JavaWizards"
@@ -40,7 +40,7 @@
       <wizard
             category="AppProfilesWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.ApplicationWizard"
-            icon="icons/mvn_wiz_icon.gif"
+            icon="icons/newprf-wiz.gif"
             id="AppProfilesCommonMavenProjectWizard"
             name="AppProfiles Application"
             project="true">
