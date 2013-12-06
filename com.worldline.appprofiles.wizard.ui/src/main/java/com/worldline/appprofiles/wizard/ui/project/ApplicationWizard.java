@@ -38,6 +38,8 @@ import com.worldline.appprofiles.wizard.commons.listeners.internal.ListenerRegis
 import com.worldline.appprofiles.wizard.ui.Activator;
 import com.worldline.appprofiles.wizard.ui.ApplicationWizardMessages;
 import com.worldline.appprofiles.wizard.ui.IApplicationWizardPage;
+import com.worldline.appprofiles.wizard.ui.listeners.CreationJobEvent;
+import com.worldline.appprofiles.wizard.ui.listeners.CreationJobListener;
 import com.worldline.appprofiles.wizard.ui.listeners.CreationWizardEvent;
 import com.worldline.appprofiles.wizard.ui.listeners.CreationWizardListener;
 import com.worldline.appprofiles.wizard.ui.model.AbstractConfigurationEntry;
@@ -139,6 +141,15 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
+		// Now, calls the listeners related to Creation Job.
+		Collection<CreationJobListener> listeners = ListenerRegistry.getInstance().getListenersFor(CreationJobListener.class);
+		for (CreationJobListener listener : listeners) {
+			try {
+				listener.onEvent(new CreationJobEvent(applicationWizardOutput));
+			} catch (Exception e) {
+				Activator.getDefault().getLog().log(new Status(IStatus.WARNING,Activator.PLUGIN_ID,"An exception was caught while executing listener",e));
+			}
+		}
 		new ApplicationCreationJob(applicationWizardOutput).schedule();
 
 		if (this.applicationWizardOutput.isShowDocumentation()) {

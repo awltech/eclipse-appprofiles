@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Commons
-Bundle-SymbolicName: com.worldline.appprofiles.wizard.commons
+Bundle-SymbolicName: com.worldline.appprofiles.wizard.commons;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.worldline.appprofiles.wizard.commons.Activator
 Bundle-Vendor: WORLDLINE
@@ -11,4 +11,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Export-Package: com.worldline.appprofiles.wizard.commons.logging
+Export-Package: com.worldline.appprofiles.wizard.commons.listeners.internal,
+ com.worldline.appprofiles.wizard.commons.logging
