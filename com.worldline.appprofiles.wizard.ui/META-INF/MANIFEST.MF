@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: com.worldline.appprofiles.wizard.ui,
+ com.worldline.appprofiles.wizard.ui.listeners,
  com.worldline.appprofiles.wizard.ui.model,
  com.worldline.appprofiles.wizard.ui.model.facade,
  com.worldline.appprofiles.wizard.ui.model.loaders,
