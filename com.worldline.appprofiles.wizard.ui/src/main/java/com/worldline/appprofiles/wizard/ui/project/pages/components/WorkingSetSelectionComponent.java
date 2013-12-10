@@ -100,7 +100,7 @@ public class WorkingSetSelectionComponent extends Composite {
 		new FormDataBuilder().top(this.enableButton).left(this.label).right(this.selectButton).apply(this.text);
 		this.text.setEnabled(this.workingSetEnabled);
 
-		// Now, we add the listeners to the objects
+		// Now, we add the com.worldline.appprofiles.wizard.ui.listeners to the objects
 		this.enableButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

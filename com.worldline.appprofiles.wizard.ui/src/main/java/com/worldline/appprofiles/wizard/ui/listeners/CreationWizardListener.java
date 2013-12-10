@@ -1,6 +1,6 @@
 package com.worldline.appprofiles.wizard.ui.listeners;
 
-import com.worldline.appprofiles.wizard.commons.listeners.internal.IListener;
+import com.worldline.appprofiles.wizard.commons.internal.IListener;
 /**
  * Creation Wizard Listener implementation. Specific class created for
  * filtering opening wizard...

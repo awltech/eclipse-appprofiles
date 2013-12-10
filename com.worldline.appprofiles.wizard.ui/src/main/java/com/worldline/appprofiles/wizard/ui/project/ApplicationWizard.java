@@ -18,7 +18,6 @@ package com.worldline.appprofiles.wizard.ui.project;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,14 +33,9 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import com.worldline.appprofiles.wizard.commons.listeners.internal.ListenerRegistry;
 import com.worldline.appprofiles.wizard.ui.Activator;
 import com.worldline.appprofiles.wizard.ui.ApplicationWizardMessages;
 import com.worldline.appprofiles.wizard.ui.IApplicationWizardPage;
-import com.worldline.appprofiles.wizard.ui.listeners.CreationJobEvent;
-import com.worldline.appprofiles.wizard.ui.listeners.CreationJobListener;
-import com.worldline.appprofiles.wizard.ui.listeners.CreationWizardEvent;
-import com.worldline.appprofiles.wizard.ui.listeners.CreationWizardListener;
 import com.worldline.appprofiles.wizard.ui.model.AbstractConfigurationEntry;
 import com.worldline.appprofiles.wizard.ui.model.ApplicationConfiguration;
 import com.worldline.appprofiles.wizard.ui.model.ApplicationModule;
@@ -104,15 +98,6 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 		this.setWindowTitle(ApplicationWizardMessages.WINDOW_TITLE.value());
 		this.applicationKind = applicationKind;
 		this.applicationWizardOutput = applicationWizardOutput;
-		// Now, calls the listeners related to Creation Wizard.
-		Collection<CreationWizardListener> listeners = ListenerRegistry.getInstance().getListenersFor(CreationWizardListener.class);
-		for (CreationWizardListener listener : listeners) {
-			try {
-				listener.onEvent(new CreationWizardEvent(applicationWizardOutput));
-			} catch (Exception e) {
-				Activator.getDefault().getLog().log(new Status(IStatus.WARNING,Activator.PLUGIN_ID,"An exception was caught while executing listener",e));
-			}
-		}
 	}
 
 	@Override
@@ -141,15 +126,6 @@ public class ApplicationWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		// Now, calls the listeners related to Creation Job.
-		Collection<CreationJobListener> listeners = ListenerRegistry.getInstance().getListenersFor(CreationJobListener.class);
-		for (CreationJobListener listener : listeners) {
-			try {
-				listener.onEvent(new CreationJobEvent(applicationWizardOutput));
-			} catch (Exception e) {
-				Activator.getDefault().getLog().log(new Status(IStatus.WARNING,Activator.PLUGIN_ID,"An exception was caught while executing listener",e));
-			}
-		}
 		new ApplicationCreationJob(applicationWizardOutput).schedule();
 
 		if (this.applicationWizardOutput.isShowDocumentation()) {

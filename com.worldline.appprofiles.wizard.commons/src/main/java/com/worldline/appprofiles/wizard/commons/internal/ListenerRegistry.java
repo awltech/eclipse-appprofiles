@@ -1,4 +1,4 @@
-package com.worldline.appprofiles.wizard.commons.listeners.internal;
+package com.worldline.appprofiles.wizard.commons.internal;
 
 import java.util.ArrayList;
 /*
@@ -39,7 +39,7 @@ import com.worldline.appprofiles.wizard.commons.Activator;
 public class ListenerRegistry {
 
 	/**
-	 * Static com.worldline.appprofiles.wizard.commons.listeners.internal class, in charge of holding the Singleton instance.
+	 * Static com.worldline.appprofiles.wizard.commons.internal class, in charge of holding the Singleton instance.
 	 * 
 	 * @generated Singleton Generator on 2013-12-03 17:34:14 CET
 	 */
