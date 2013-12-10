@@ -1,6 +1,6 @@
 package com.worldline.appprofiles.wizard.ui.listeners;
 
-import com.worldline.appprofiles.wizard.commons.internal.IEvent;
+import com.worldline.appprofiles.wizard.commons.listeners.internal.IEvent;
 import com.worldline.appprofiles.wizard.ui.project.ApplicationWizardOutput;
 
 /**
