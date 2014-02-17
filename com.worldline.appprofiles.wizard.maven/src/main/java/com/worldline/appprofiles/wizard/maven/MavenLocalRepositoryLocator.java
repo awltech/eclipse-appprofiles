@@ -35,8 +35,8 @@ public class MavenLocalRepositoryLocator {
 	/**
 	 * Constant for the maven directory name for the local repository
 	 */
-	private static final String MVNREPO_ROOT_DIRECTORY= ".m2";
-	
+	private static final String MVNREPO_ROOT_DIRECTORY = ".m2";
+
 	/**
 	 * Constant
 	 */
@@ -56,43 +56,44 @@ public class MavenLocalRepositoryLocator {
 	 * @return configured location of Maven repository
 	 */
 	public static String getRepoLocation() {
-		return JavaCore.getClasspathVariable(MavenLocalRepositoryLocator.MVNREPO_NAME).toOSString();
+		IPath iPath = JavaCore.getClasspathVariable(MavenLocalRepositoryLocator.MVNREPO_NAME);
+		return iPath != null ? iPath.toOSString() : null;
 	}
 
 	/**
 	 * Retrieves the Maven default Repository Location. If this location cannot
 	 * be computed, the default path passed as parameter is used.
 	 * 
-	 * @param defaultPath :
-	 *            Default path
-	 * @throws JavaModelException :
-	 *             Thrown when classpath variable definition fails
+	 * @param defaultPath
+	 *            : Default path
+	 * @throws JavaModelException
+	 *             : Thrown when classpath variable definition fails
 	 */
-	public static void setRepoLocation(String mavenSettingsLocalRepo) throws JavaModelException {
+	public static void setRepoLocation(String mavenSettingsLocalRepo, boolean force) throws JavaModelException {
 
-		String pathVar = System.getenv(MavenLocalRepositoryLocator.MVNREPO_NAME);
+		if (getRepoLocation() == null || force) {
 
-			if (mavenSettingsLocalRepo !=  null && new File(mavenSettingsLocalRepo).exists())
+			String pathVar = System.getenv(MavenLocalRepositoryLocator.MVNREPO_NAME);
+
+			if (mavenSettingsLocalRepo != null && new File(mavenSettingsLocalRepo).exists())
 				// Settings from Maven settings
-				JavaCore.setClasspathVariable(MVNREPO_NAME, new Path(mavenSettingsLocalRepo),
-						new NullProgressMonitor());
+				JavaCore.setClasspathVariable(MVNREPO_NAME, new Path(mavenSettingsLocalRepo), new NullProgressMonitor());
 			else if (pathVar != null) {
 				// Setting from variable system
-				org.eclipse.jdt.core.JavaCore.setClasspathVariable(
-						MavenLocalRepositoryLocator.MVNREPO_NAME, new Path(pathVar),
-						new NullProgressMonitor());
+				org.eclipse.jdt.core.JavaCore.setClasspathVariable(MavenLocalRepositoryLocator.MVNREPO_NAME, new Path(
+						pathVar), new NullProgressMonitor());
 
 			} else {
-				String userLocation = System
-						.getenv(MavenLocalRepositoryLocator.USERPROFILE_PROPERTY);
+				String userLocation = System.getenv(MavenLocalRepositoryLocator.USERPROFILE_PROPERTY);
 				if (userLocation != null) {
 					// Default setting
 					IPath userPath = new Path(userLocation);
 					userPath = userPath.append(MavenLocalRepositoryLocator.MVNREPO_ROOT_DIRECTORY);
 					userPath = userPath.append(MavenLocalRepositoryLocator.MVNREPO_PATH_SEGMENT2);
-					JavaCore.setClasspathVariable(MavenLocalRepositoryLocator.MVNREPO_NAME,
-							userPath, new NullProgressMonitor());
+					JavaCore.setClasspathVariable(MavenLocalRepositoryLocator.MVNREPO_NAME, userPath,
+							new NullProgressMonitor());
 				}
 			}
+		}
 	}
 }

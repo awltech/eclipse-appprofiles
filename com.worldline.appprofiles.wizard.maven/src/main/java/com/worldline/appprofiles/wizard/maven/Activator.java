@@ -7,6 +7,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.worldline.appprofiles.wizard.maven.embedder.MavenManager;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -17,7 +19,7 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	// System property to enable debug
 	public static final String DEBUG_PROPERTY = "appprofiles.wizard.maven.debug";
 
@@ -37,6 +39,13 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		try {
+			String mavenSettingsLocalRepo = MavenManager.getMavenEmbedder().getLocalRepositoryPath();
+			MavenLocalRepositoryLocator.setRepoLocation(mavenSettingsLocalRepo, false);
+		} catch (Exception e) {
+			Activator.getDefault().logError("An exception happened when locating repository", e);
+		}
 	}
 
 	/*
