@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.net
 Bundle-Vendor: Atos.net
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.1.qualifier
 Bundle-Name: Maven implementation for Application Profiles Wizard
 Bundle-Activator: com.worldline.appprofiles.wizard.maven.Activator
 Bundle-ManifestVersion: 2
