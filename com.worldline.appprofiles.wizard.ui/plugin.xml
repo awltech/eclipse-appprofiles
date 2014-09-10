@@ -7,13 +7,13 @@
       <category
             parentCategory="org.eclipse.ui.Examples"
             id="AppProfilesSampleWizardsCategory"
-            name="AppProfiles"/>
+            name="Applications from Profiles"/>
       <wizard
             category="org.eclipse.ui.Examples/AppProfilesSampleWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.SampleApplicationWizard"
             icon="icons/newprf-wiz.gif"
             id="AppProfilesCommonMavenSampleProjectWizard"
-            name="AppProfiles Sample Application"
+            name="Create new Sample Application from Profile"
             project="true">
       </wizard>
    </extension>
@@ -26,7 +26,7 @@
         class="com.worldline.appprofiles.wizard.ui.project.RunApplicationWizardAction"
         icon="icons/newprf-wiz.gif"
         id="com.worldline.common.maven.wizard.actionset.action"
-        label="Create Application"
+        label="Create new Application from Profile"
         toolbarPath="org.eclipse.jdt.ui.JavaElementCreationActionSet/JavaWizards"
         tooltip="Create Application"> 
 		</action> 
@@ -36,13 +36,13 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="AppProfilesWizardsCategory"
-            name="AppProfiles"/>
+            name="Applications from Profiles"/>
       <wizard
             category="AppProfilesWizardsCategory"
             class="com.worldline.appprofiles.wizard.ui.project.ApplicationWizard"
             icon="icons/newprf-wiz.gif"
             id="AppProfilesCommonMavenProjectWizard"
-            name="AppProfiles Application"
+            name="Create new Application from Profile"
             project="true">
       </wizard>
       </extension>
