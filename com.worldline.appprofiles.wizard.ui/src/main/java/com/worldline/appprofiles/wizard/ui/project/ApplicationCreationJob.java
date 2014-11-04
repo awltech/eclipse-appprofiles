@@ -44,6 +44,8 @@ import com.worldline.appprofiles.wizard.ui.model.facade.IValueConfigurator;
 
 public class ApplicationCreationJob extends WorkspaceJob {
 
+	private static final String TRUE_AS_STRING = "true";
+	private static final String PROJECT_SUFFIX = "Project";
 	public static final String PARENT_ARTIFACT_ID = "parentArtifactId";
 	private ApplicationWizardOutput applicationWizardOutput;
 
@@ -73,9 +75,17 @@ public class ApplicationCreationJob extends WorkspaceJob {
 		for (ApplicationModule module : selectedApplicationProfile.getAllModules()) {
 			if (module.isMandatory() || applicationWizardOutput.getSelectedModules().contains(module)) {
 
+				// This piece of code is not acceptable, but for compatibility
+				// purposes, we keep it.
 				if (module.getPackageNameSuffix() != null && module.getPackageNameSuffix().length() > 0) {
 					selectedProjectAsProperties.put(module.getPackageNameSuffix().substring(1).toLowerCase()
-							+ "Project", "true");
+							+ PROJECT_SUFFIX, TRUE_AS_STRING);
+				}
+
+				// This piece should just replace the previous one...
+				if (module.getId() != null) {
+					String moduleIdentifier = trimSpecial(module.getId());
+					selectedProjectAsProperties.put(moduleIdentifier + PROJECT_SUFFIX, TRUE_AS_STRING);
 				}
 			}
 		}
@@ -241,6 +251,19 @@ public class ApplicationCreationJob extends WorkspaceJob {
 		monitor.worked(1);
 
 		return !configurationStatus.isOK() ? configurationStatus : Status.OK_STATUS;
+	}
+
+	private static String trimSpecial(String value) {
+		if (value == null) {
+			return null;
+		}
+		StringBuilder builder = new StringBuilder(value.length());
+		for (char c : value.toCharArray()) {
+			if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+				builder.append(c);
+			}
+		}
+		return builder.toString().trim();
 	}
 
 	private Map<String, String> loadProperties(ApplicationModule module) {
