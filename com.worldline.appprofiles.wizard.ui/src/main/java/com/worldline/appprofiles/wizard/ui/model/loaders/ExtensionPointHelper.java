@@ -22,14 +22,23 @@ public class ExtensionPointHelper {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T optionalExecutable(Class<T> clazz, IConfigurationElement element, String value) {
+		if (value == null || value.length() == 0) {
+			// In this case, nothing was specified which is not a big deal since
+			// it is optional. We return nothing then.
+			// https://github.com/awltech/eclipse-appprofiles/issues/2
+			return null;
+		}
 		try {
 			return (T) element.createExecutableExtension(value);
 		} catch (ClassCastException e) {
 			Activator.getDefault().getLog()
-					.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Type of executable is false", e));
+					.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, "Type of executable is false", e));
 		} catch (Exception e) {
-			Activator.getDefault().getLog()
-			.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Unexpected exception caught when loading executable !!!", e));
+			Activator
+					.getDefault()
+					.getLog()
+					.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID,
+							"Exception caught when loading executable !!!", e));
 		}
 		return null;
 	}
