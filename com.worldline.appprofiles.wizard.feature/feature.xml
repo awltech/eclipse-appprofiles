@@ -2,7 +2,7 @@
 <feature
       id="com.worldline.appprofiles.wizard"
       label="Application Profiles Wizard Feature"
-      version="1.0.1.qualifier"
+      version="1.0.2.qualifier"
       provider-name="Worldline.com">
 
    <description url="http://www.example.com/description">
@@ -85,21 +85,21 @@ If the Library as you received it specifies that a proxy can decide whether futu
          id="com.worldline.appprofiles.wizard.maven"
          download-size="0"
          install-size="0"
-         version="1.0.1.qualifier"
+         version="1.0.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="com.worldline.appprofiles.wizard.ui"
          download-size="0"
          install-size="0"
-         version="1.0.1.qualifier"
+         version="1.0.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="com.worldline.appprofiles.wizard.commons"
          download-size="0"
          install-size="0"
-         version="1.0.1.qualifier"
+         version="1.0.2.qualifier"
          unpack="false"/>
 
 </feature>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Maven implementation for Application Profiles Wizard
 Bundle-SymbolicName: com.worldline.appprofiles.wizard.maven;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Activator: com.worldline.appprofiles.wizard.maven.Activator
 Bundle-Vendor: Worldline.com
 Require-Bundle: org.eclipse.ui,
