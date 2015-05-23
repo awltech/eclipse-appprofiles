@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.worldline.appprofiles.wizard_1.0.1.qualifier.jar" id="com.worldline.appprofiles.wizard" version="1.0.1.qualifier">
+   <feature url="features/com.worldline.appprofiles.wizard_1.0.2.qualifier.jar" id="com.worldline.appprofiles.wizard" version="1.0.2.qualifier">
       <category name="Application Profiles Wizard"/>
    </feature>
    <category-def name="Application Profiles Wizard" label="Application Profiles Wizard"/>
