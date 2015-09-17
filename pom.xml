@@ -63,7 +63,7 @@
 				<artifactId>tycho-packaging-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<format>yyyyMMddHHmm'-luna-SNAPSHOT'</format>
+					<format>yyyyMMddHHmm'-SNAPSHOT'</format>
 				</configuration>
 			</plugin>
 			<plugin>
